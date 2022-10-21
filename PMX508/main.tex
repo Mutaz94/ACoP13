@@ -1,0 +1,135 @@
+% Fork from Gemini theme
+% See: https://github.com/alfurka/gemini-uq
+% 	   https://github.com/anishathalye/gemini
+
+
+\documentclass[final]{beamer}
+% ACoP req: 36 inches (91.5 cm) wide x 48 inches (122 cm) high 
+% ====================
+% Packages
+% ====================
+
+\usepackage{fontspec}
+\usepackage{lmodern}
+\usepackage[size=custom,width=91.5,height=122,scale=1.0]{beamerposter}
+\usetheme{uofmn}
+\usecolortheme{uofmn}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xfrac} 
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+
+% ====================
+% Lengths
+% ====================
+
+% If you have N columns, choose \sepwidth and \colwidth such that
+% (N+1)*\sepwidth + N*\colwidth = \paperwidth
+\newlength{\sepwidth}
+\newlength{\colwidth}
+\newlength{\verwidth} 
+\setlength{\verwidth}{0.04\paperwidth} 
+\setlength{\sepwidth}{0.03\paperwidth}
+\setlength{\colwidth}{0.3\paperwidth}
+
+\newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
+
+% ====================
+% Title
+% ====================
+
+\title{Simultaneous Exposure Analysis of Total and Unbound R- \\ and S-methadone Concentrations}
+
+\author{\emph{Mutaz M.} \textbf{Jaber} \inst{1} \and \emph{Gavin} \textbf{Bart} \inst{2} \and \emph{Mahmoud} \textbf{Al-Kofahi} \inst{1} \and \emph{Richard C.} \textbf{Brundage}\inst{1}}
+
+\institute[shortinst]{\inst{1} Department of Experimental and Clinical Pharmacology, College of Pharmacy, University of Minnesota\\ \inst{2} Division of Addiction Medicine, Medical School, University of Minnesota 
+%\samelineand \inst{2} Metrum Research Group
+%\samelineand \inst{3} Gilead Sciences
+}
+
+% ====================
+% Footer (optional)
+% ====================
+
+\footercontent{
+  \href{https://www.example.com}{https://www.umn.edu/\~jaber038} \hfill
+  ACoP13 Conference 2022, Colorado --- PMX508 \hfill
+  \href{mailto:a.kalay@example.com}{Mutaz Jaber, jaber038@umn.edu}}
+% (can be left out to remove footer)
+
+% ====================
+% Logo (optional)
+% ====================
+
+% use this to include logos on the left and/or right side of the header:
+% \logoright{\includegraphics[height=7cm]{logo1.pdf}}
+% \logoleft{\includegraphics[height=7cm]{logo2.pdf}}
+
+% ====================
+% Body
+% ====================
+
+\begin{document}
+\addtobeamertemplate{headline}{}
+{
+    \begin{tikzpicture}[remember picture,overlay]
+      \node [anchor=north west, inner sep=3cm] at ([xshift=0.0cm,yshift=0.5cm]current page.north west)
+      {\includegraphics[height=6.0cm]{logos/Logo-Left.png}}; % also try shield-white.eps
+      \node [anchor=north east, inner sep=3cm] at ([xshift=0.0cm,yshift=0.5cm]current page.north east)
+      {\includegraphics[height=4.0cm]{logos/Logo-Right.png}};
+    \end{tikzpicture}
+}
+
+\begin{frame}[t]
+\begin{columns}[t]
+\separatorcolumn
+
+\begin{column}{\colwidth}
+
+  \begin{block}{\textbf{Overview}}
+Opiate injection misuse has associated mortality and is a common cause of HIV transmission.  Methadone replacement therapy is used to reduce dependence on opioids. High methadone pharmacokinetic variability and methadone being a racemic mixture of R- and S-methadone (RSM) with differing activities and elimination make it challenging to dose. RSM total and unbound concentrations have been collected in HIV+ and HIV- patients to elucidate dose-exposure relationships. Nonlinear mixed-effect modeling (NLMEM) is useful to link patient-specific characteristics to elimination and therefore drug exposure. Statistical challenges include limited concentration data in each patient and since the total and unbound RSM concentrations are obtained at the same time, the analysis should account for inherent correlations among the 4 compounds. While NLMEM can address these concerns using Bayesian estimation methods, the methodological challenge is the substantial computing power necessary to implement these pharmacostatistical models. The aim of this study was to identify patient characteristics and assess differences in protein binding in HIV+ patients to improve dose recommendations.
+
+  \end{block}
+  \begin{block}{\textbf{METHODS}} 
+  A total of 7908 observations (309 subjects) consisted of trough and peak steady-state concentrations for unbound and total R/S methadone. NLMEM approach was conducted to simultaneously analyze the 4 compounds using Bayesian estimation method with interaction in NONMEM v7.5 (ICON plc development). Based on Bayes theorem:
+  \begin{equation}\label{eq:1}
+  p(\Phi|y) \propto p(y|\Phi) p(\Phi)
+  \end{equation}
+  The posterior distribution of $\Phi$ given the observed data $y$ is proportional to the conditional likelihood function of the data $y$ given $\Phi$ and the prior distribution of $\Phi$; Where $\Phi$ is a vector of individual pharmacokinetic parameters. \par
+  The pharmacokinetic parameters $\Phi$ used for estimation are unbound drug clearance ($CL_U$), unbound volume of distribution ($V_U$) and Fraction unbound ($F_U$) for the unbound R and S methadone, thus we have 6 set of main pharmacokinetic parameters. Patient characteristics such as body weight and HIV status were implemented to identify to describe the variability in PK parameters and identify the difference in PK between HIV +/- patients. Additional covariates such as concomitant use of antiretrovirals such as Efavrizn and NVP were used based on a prior knowledge.  \par
+Assuming that the unbound R and S methadone data can be described using a multidose one-compartment model with first-order absorption and first-order elimination, $f(.)$, then:
+\begin{equation}\label{eq:2}
+	f(\Phi, x_i, t_{i,j}) = \frac{F \cdot D \cdot k_a}{V_U(k_a - (\sfrac{CL_U}{V_U}))} \left(\frac{\exp(-(\sfrac{CL_U}{V_U}) t_{i,j})}{1 - \exp(-(\sfrac{CL_U}{V_U}\tau))} - \frac{\exp(-k_a t_{i,j})}{1 - \exp(-k_a\tau)}\right) 
+\end{equation}
+The total R/S methadone, $g(.)$, can be obtained using the Fraction of unbound ($F_U$):
+
+\begin{equation}\label{eq:3}
+	g(\Phi, x_i, t_{i,j}) = \frac{f(\Phi, x_i, t_{i,j})}{F_U}
+\end{equation}
+
+A proportional error model was used to describe the observed data:
+\begin{eqnarray*}
+	y_{i,j,U} &=& f(\Phi, x_i, t_{i,j}) + f(\Phi, x_i, t_{i,j})\epsilon_{i,j}\\
+	~\\
+	y_{i,j,T} &=& g(\Phi, x_i, t_{i,j}) + f(\Phi, x_i, t_{i,j})\epsilon_{i,j} 
+\end{eqnarray*}
+  \end{block}
+
+Where $y$ presents the observed concentration for the $i^{th}$ concentration and $j^{th}$subject; $\epsilon$ is a multivariate random variable  with mean vector of zeros and variance matrix of $\Sigma$.\par 
+A “warm-up” estimation step was done using stochastic approximation expectation-maximization (SAEM) algorithm to evaluate a possible value for prior distribution. The results from SAEM were used as uninformative prior distribution to allow more relaxed Bayesian estimation. 
+  
+\end{column}
+\separatorcolumn
+\begin{column}{\colwidth}
+
+\end{column}
+\separatorcolumn
+\begin{column}{\colwidth}
+
+\end{column}
+\end{columns}
+\end{frame}
+
+\end{document}
