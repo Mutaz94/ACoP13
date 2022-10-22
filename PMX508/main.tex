@@ -32,7 +32,7 @@
 \newlength{\verwidth} 
 \setlength{\verwidth}{0.04\paperwidth} 
 \setlength{\sepwidth}{0.03\paperwidth}
-\setlength{\colwidth}{0.3\paperwidth}
+\setlength{\colwidth}{0.47\paperwidth}
 
 \newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
 
@@ -89,24 +89,49 @@
 \begin{column}{\colwidth}
 
   \begin{block}{\textbf{Overview}}
-Opiate injection misuse has associated mortality and is a common cause of HIV transmission.  Methadone replacement therapy is used to reduce dependence on opioids. High methadone pharmacokinetic variability and methadone being a racemic mixture of R- and S-methadone (RSM) with differing activities and elimination make it challenging to dose. RSM total and unbound concentrations have been collected in HIV+ and HIV- patients to elucidate dose-exposure relationships. Nonlinear mixed-effect modeling (NLMEM) is useful to link patient-specific characteristics to elimination and therefore drug exposure. Statistical challenges include limited concentration data in each patient and since the total and unbound RSM concentrations are obtained at the same time, the analysis should account for inherent correlations among the 4 compounds. While NLMEM can address these concerns using Bayesian estimation methods, the methodological challenge is the substantial computing power necessary to implement these pharmacostatistical models. The aim of this study was to identify patient characteristics and assess differences in protein binding in HIV+ patients to improve dose recommendations.
+Opioid misuse especially by injection is associated with mortality and is
+a common cause of HIV transmission. Methadone replacement
+therapy is used to reduce dependence on opioids. Methadone has
+high pharmacokinetic (PK) variability, and it is a racemic mixture of Rand
+S-methadone with differing activities and routes of elimination.
+These factors make it challenging to dose. R- and S-methadone total
+(bound plus unbound) and unbound (the active compounds)
+concentrations have been collected in HIV+ and HIV- patients to
+elucidate dose-exposure relationships and examine differences
+between HIV+ and HIV- patients. Nonlinear mixed-effect modeling
+(NLMEM) is useful to link patient-specific characteristics to elimination
+processes and therefore drug exposure. Statistical challenges include
+a relatively complex pharmacokinetic model, limited concentration data
+in each patient, and since the total and unbound R- and Smethadone
+concentrations are obtained at the same time, the analysis
+should account for inherent correlations among the 4 compounds.
+While NLMEM can address these concerns using Bayesian estimation
+methods, the methodological challenge is the substantial computing
+power necessary to implement these pharmacostatistical models. The
+aim of this study was to identify patient characteristics and assess
+pharmacokinetic differences in clearance, volume of distribution,
+protein binding, and bioavailability
 
   \end{block}
   \begin{block}{\textbf{METHODS}} 
-  A total of 7908 observations (309 subjects) consisted of trough and peak steady-state concentrations for unbound and total R/S methadone. NLMEM approach was conducted to simultaneously analyze the 4 compounds using Bayesian estimation method with interaction in NONMEM v7.5 (ICON plc development). Based on Bayes theorem:
-  \begin{equation}\label{eq:1}
+ A total of 7908 observations (309 subjects) were obtained as trough and
+peak steady-state concentrations for unbound and total R- and Smethadone.
+A NLMEM approach was conducted to simultaneously
+analyze the 4 compounds using Bayesian estimation method with
+interaction in NONMEM v7.5 (ICON plc development). Based on bayes
+theorem  \begin{equation}\label{eq:1}
   p(\Phi|y) \propto p(y|\Phi) p(\Phi)
   \end{equation}
   The posterior distribution of $\Phi$ given the observed data $y$ is proportional to the conditional likelihood function of the data $y$ given $\Phi$ and the prior distribution of $\Phi$; Where $\Phi$ is a vector of individual pharmacokinetic parameters. \par
   The pharmacokinetic parameters $\Phi$ used for estimation are unbound drug clearance ($CL_U$), unbound volume of distribution ($V_U$) and Fraction unbound ($F_U$) for the unbound R and S methadone, thus we have 6 set of main pharmacokinetic parameters. Patient characteristics such as body weight and HIV status were implemented to identify to describe the variability in PK parameters and identify the difference in PK between HIV +/- patients. Additional covariates such as concomitant use of antiretrovirals such as Efavrizn and NVP were used based on a prior knowledge.  \par
 Assuming that the unbound R and S methadone data can be described using a multidose one-compartment model with first-order absorption and first-order elimination, $f(.)$, then:
 \begin{equation}\label{eq:2}
-	f(\Phi, x_i, t_{i,j}) = \frac{F \cdot D \cdot k_a}{V_U(k_a - (\sfrac{CL_U}{V_U}))} \left(\frac{\exp(-(\sfrac{CL_U}{V_U}) t_{i,j})}{1 - \exp(-(\sfrac{CL_U}{V_U}\tau))} - \frac{\exp(-k_a t_{i,j})}{1 - \exp(-k_a\tau)}\right) 
+	C_u(t) := f(\Phi, x_i, t_{i,j}) = \frac{F \cdot D \cdot k_a}{V_U(k_a - (\sfrac{CL_U}{V_U}))} \left(\frac{\exp(-(\sfrac{CL_U}{V_U}) t_{i,j})}{1 - \exp(-(\sfrac{CL_U}{V_U}\tau))} - \frac{\exp(-k_a t_{i,j})}{1 - \exp(-k_a\tau)}\right) 
 \end{equation}
 The total R/S methadone, $g(.)$, can be obtained using the Fraction of unbound ($F_U$):
 
 \begin{equation}\label{eq:3}
-	g(\Phi, x_i, t_{i,j}) = \frac{f(\Phi, x_i, t_{i,j})}{F_U}
+	C_{tot}(t) := g(\Phi, x_i, t_{i,j}) = \frac{C_u(t)}{F_U}
 \end{equation}
 
 A proportional error model was used to describe the observed data:
@@ -115,21 +140,21 @@ A proportional error model was used to describe the observed data:
 	~\\
 	y_{i,j,T} &=& g(\Phi, x_i, t_{i,j}) + f(\Phi, x_i, t_{i,j})\epsilon_{i,j} 
 \end{eqnarray*}
-  \end{block}
 
 Where $y$ presents the observed concentration for the $i^{th}$ concentration and $j^{th}$subject; $\epsilon$ is a multivariate random variable  with mean vector of zeros and variance matrix of $\Sigma$.\par 
-A “warm-up” estimation step was done using stochastic approximation expectation-maximization (SAEM) algorithm to evaluate a possible value for prior distribution. The results from SAEM were used as uninformative prior distribution to allow more relaxed Bayesian estimation. 
-  
+A “warm-up” estimation step was done using stochastic approximation expectation-maximization (SAEM) algorithm to evaluate a possible value for prior distribution. The results from SAEM were used as uninformative prior distribution to allow more relaxed Bayesian estimation.\par
+Generally, Monte-Carlo Markov chains (MCMC) samples in Bayesian analysis
+can be highly correlated, therefore, three independent sets of initial values were
+generated using MCMC sampled from the prior distribution. For each chain
+Bayesian estimation with interaction was conducted with 6000 samples in a
+burn-in phase and 8000 samples for sampling phase.
+\end{block}
 \end{column}
 \separatorcolumn
 \begin{column}{\colwidth}
 
 \end{column}
-\separatorcolumn
-\begin{column}{\colwidth}
-
-\end{column}
-\end{columns}
+\end{columns} 
 \end{frame}
 
 \end{document}

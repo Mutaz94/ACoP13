@@ -89,16 +89,16 @@
 
   \begin{alertblock}{\textbf{SUMMARY}}
 
-An assumption that recorded clinical data are recorded without any error is optimistically made. While some study personnel will record the actual times when there is a deviation others record the nominal time. In the current modeling and simulation work we:
+An assumption that clinical data are recorded without any error is optimistically made. While some study personnel will record the actual times when there is a deviation others record the nominal time. In the current modeling and simulation work we:
 \begin{itemize}
-\item[I] investigate an approach that includes a error correction factor on recorded time and quantitate the bias in estimated parameters;
-\item[II] examining the magnitude difference between the actual and recorded time that lead to biased pharmacokinetic (PK) estimates; and 
-\item[III] compare the performance of first-order conditional (FOCE) and stochastic expectation-maximization (SAEM) algorithms in handling data with erroneous recorded times. 
+\item[I] Investigate an approach that includes error correction factor on recorded time and quantitate the bias in estimated parameters.
+\item[II] Determine the maximal deviation between observed and recorded times that does not cause significant bias. 
+\item[III] Compare the performance of first-order conditional (FOCE) and stochastic expectation-maximization (SAEM) algorithms in handling data with erroneous recorded times. 
 \end{itemize} 
 We conclude that:
 \begin{itemize}
-    \item Adding a correction factor to the recorded time will lead to diluting the bias and imprecision in PK estimates compared to assuming the recorded time is absolute.
-    \item A magnitude difference greater than 5 minutes between the actual and recorded times can lead to more than 10\% bias and imprecision PK estimates.
+    \item Adding a correction factor to the nominal time will lead to diluting the bias and imprecision in PK estimates compared to assuming the nominal time is absolute.
+    \item A magnitude difference greater than 5 minutes between the actual and nominal times can lead to more than 10\% bias and imprecision PK estimates.
     \item In comparison between estimation algorithms, SAEM estimates were more accurate than FOCE in primary PK parameters and produced similar RUV estimates on average. 
 \end{itemize}
 
@@ -110,17 +110,17 @@ Two sources of error were modeled in this work: a classical error model and a co
 \begin{equation}\label{eq:1}
 y_{i,j} = f(\Phi, x_i, t_{i,j}) + g(\Phi, x_i, t_{i,j}, \zeta)\epsilon_{i,j}
 \end{equation}  
-Let us introduce the recorded time $T_R$ for the $i^{th}$ concentration in the $j^{th}$ subject as a function of true time   $T_T$ and gaussian noise, $\kappa$, that is an independent and identically distributed random variable with mean 0 and standard deviation $K$, representing the deviation of recorded time from the true time.
+Let us introduce the actual time $T_A$ for the $i^{th}$ concentration in the $j^{th}$ subject as a function of nominal time   $T_N$ and gaussian noise, $\kappa$, that is an independent and identically distributed random variable with mean 0 and standard deviation $K$, representing the deviation of actual time from the nominal time.
 \begin{equation}\label{eq:two}
-	T_{R,i,j} = T_{T,i,j} + \kappa_{i,j} 
+	T_{A,i,j} = T_{N,i,j} + \kappa_{i,j} 
 \end{equation}
 Therefore, the kappa model, $M_\kappa$, can be presented as:
 \begin{equation}\label{eq:three}
-y_{i,j} = f(\Phi, x_i, T_{T,i,j}) + g(\Phi, x_i, T_{T,i,j}, \zeta)\epsilon_{i,j}
+y_{i,j} = f(\Phi, x_i, T_{A,i,j}) + g(\Phi, x_i, T_{A,i,j}, \zeta)\epsilon_{i,j}
 \end{equation}  
 In order to evaluate if there is a threshold of time deviation that is acceptable, we will be defining $t^*$ in this work to represent the time used in estimation process under parts II-III, where this a mathematical case:
 \begin{equation}\label{eq:for}
-t^* = \begin{cases} T_T & |T_T - T_R| > \delta \\ T_R & \mathrm{otherwise} \end{cases}
+t^* = \begin{cases} T_A & |T_A - T_N| > \delta \\ T_N & \mathrm{otherwise} \end{cases}
 \end{equation} 
 
 A 500 mg single dose study with 500 in-silico subjects were simulated under a two-compartment first-order absorption and linear elimination model, $f(.)$. Individual pharmacokinetic parameters were sampled from a multivariate log-normal distribution with a mean of the logarithmic typical values vector and diagonal variance matrix $\Omega$. A 15\% CV served as a baseline residual unexplained variability (RUV) using a proportional error model $g(.)$. Table \ref{tab:1} presents the true simulated PK parameters with corresponding BSV CV, and RUV magnitude.   
@@ -142,7 +142,7 @@ A 500 mg single dose study with 500 in-silico subjects were simulated under a tw
     \end{table}
 Three sample collection designs were examined; (a) Intense design (I) with 8 samples: 0.5, 1, 2, 4, 8, 12, 24, 48 hours post dose, (b) sparse design (S) with 4 samples: 0.5, 2, 24, 48 hours post dose and (c) mixed design (M) with 33\% of subjects having 8 samples as in I, 33\%  of subjects having 6 samples (0.5, 2, 4, 12, 24, 48), and 33\% of subjects having 4 samples as in S.\par
 Two models were created: the null model (Eq \ref{eq:1}; $M_0$), and the kappa model, (Eq \ref{eq:three};  $M_\kappa$), respectively. Model was built with `PRED` subroutine to allow the implementation of $M_\kappa$ since PRED has the flexibility of writing the analytical solution for the two-compartment model. Parameters were estimated using first-order conditional estimation (FOCE) with interaction between $\eta$ and $\epsilon$ since a proportional error model is used.\par
-In part two, simulations were perturbed with standard deviation of 10 minutes   in time, then followed by creating a new column in the dataset presenting the time used in the estimation process as shown in equation (Eq \ref{eq:for}; $t^*$). The difference, $\delta$, was selected to be 5, 10, 15, or 30 minutes. In fitting the model to the data, $t^*$ was used as the independent variable time with $M_0$.\par
+In part two, simulations were perturbed with standard deviation of 10 minutes  in time, then followed by creating a new column in the dataset presenting the time used in the estimation process as shown in equation (Eq \ref{eq:for}; $t^*$). The difference, $\delta$, was selected to be 5, 10, 15, or 30 minutes. In fitting the model to the data, $t^*$ was used as the independent variable time with $M_0$.\par
 In part 3 of this study we re-used data generated from the previous section (part II) but with different estimation methods; either with FOCE or SAEM algorithms including interaction. The AUTO=1 criteria was used to select the most suitable convergence test in SAEM, and importance sampling was used to evaluate the likelihood function.
   
   \end{block} 
