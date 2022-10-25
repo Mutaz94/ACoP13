@@ -4,7 +4,7 @@
 
 
 \documentclass[final]{beamer}
-% ACoP req: 36 inches (91.5 cm) wide x 48 inches (122 cm) high 
+% ACoP req: 36 inches (91.5 cm) wide x 48 inches (122 cm) high
 % ====================
 % Packages
 % ====================
@@ -15,8 +15,10 @@
 \usetheme{uofmn}
 \usecolortheme{uofmn}
 \usepackage{graphicx}
+\usepackage{multirow}
 \usepackage{booktabs}
-\usepackage{xfrac} 
+\usepackage{tabularx}
+\usepackage{xfrac}
 \usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.17}
@@ -29,10 +31,10 @@
 % (N+1)*\sepwidth + N*\colwidth = \paperwidth
 \newlength{\sepwidth}
 \newlength{\colwidth}
-\newlength{\verwidth} 
-\setlength{\verwidth}{0.04\paperwidth} 
+\newlength{\verwidth}
+\setlength{\verwidth}{0.04\paperwidth}
 \setlength{\sepwidth}{0.03\paperwidth}
-\setlength{\colwidth}{0.47\paperwidth}
+\setlength{\colwidth}{0.43\paperwidth}
 
 \newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
 
@@ -44,7 +46,7 @@
 
 \author{\emph{Mutaz M.} \textbf{Jaber} \inst{1} \and \emph{Gavin} \textbf{Bart} \inst{2} \and \emph{Mahmoud} \textbf{Al-Kofahi} \inst{1} \and \emph{Richard C.} \textbf{Brundage}\inst{1}}
 
-\institute[shortinst]{\inst{1} Department of Experimental and Clinical Pharmacology, College of Pharmacy, University of Minnesota\\ \inst{2} Division of Addiction Medicine, Medical School, University of Minnesota 
+\institute[shortinst]{\inst{1} Department of Experimental and Clinical Pharmacology, College of Pharmacy, University of Minnesota\\ \inst{2} Division of Addiction Medicine, Medical School, University of Minnesota
 %\samelineand \inst{2} Metrum Research Group
 %\samelineand \inst{3} Gilead Sciences
 }
@@ -88,7 +90,7 @@
 
 \begin{column}{\colwidth}
 
-  \begin{block}{\textbf{Overview}}
+  \begin{block}{\textbf{OVERVIEW}}
 Opioid misuse especially by injection is associated with mortality and is
 a common cause of HIV transmission. Methadone replacement
 therapy is used to reduce dependence on opioids. Methadone has
@@ -113,7 +115,7 @@ pharmacokinetic differences in clearance, volume of distribution,
 protein binding, and bioavailability
 
   \end{block}
-  \begin{block}{\textbf{METHODS}} 
+  \begin{block}{\textbf{METHODS}}
  A total of 7908 observations (309 subjects) were obtained as trough and
 peak steady-state concentrations for unbound and total R- and Smethadone.
 A NLMEM approach was conducted to simultaneously
@@ -126,7 +128,7 @@ theorem  \begin{equation}\label{eq:1}
   The pharmacokinetic parameters $\Phi$ used for estimation are unbound drug clearance ($CL_U$), unbound volume of distribution ($V_U$) and Fraction unbound ($F_U$) for the unbound R and S methadone, thus we have 6 set of main pharmacokinetic parameters. Patient characteristics such as body weight and HIV status were implemented to identify to describe the variability in PK parameters and identify the difference in PK between HIV +/- patients. Additional covariates such as concomitant use of antiretrovirals such as Efavrizn and NVP were used based on a prior knowledge.  \par
 Assuming that the unbound R and S methadone data can be described using a multidose one-compartment model with first-order absorption and first-order elimination, $f(.)$, then:
 \begin{equation}\label{eq:2}
-	C_u(t) := f(\Phi, x_i, t_{i,j}) = \frac{F \cdot D \cdot k_a}{V_U(k_a - (\sfrac{CL_U}{V_U}))} \left(\frac{\exp(-(\sfrac{CL_U}{V_U}) t_{i,j})}{1 - \exp(-(\sfrac{CL_U}{V_U}\tau))} - \frac{\exp(-k_a t_{i,j})}{1 - \exp(-k_a\tau)}\right) 
+	C_u(t) := f(\Phi, x_i, t_{i,j}) = \frac{F \cdot D \cdot k_a}{V_U(k_a - (\sfrac{CL_U}{V_U}))} \left(\frac{\exp(-(\sfrac{CL_U}{V_U}) t_{i,j})}{1 - \exp(-(\sfrac{CL_U}{V_U}\tau))} - \frac{\exp(-k_a t_{i,j})}{1 - \exp(-k_a\tau)}\right)
 \end{equation}
 The total R/S methadone, $g(.)$, can be obtained using the Fraction of unbound ($F_U$):
 
@@ -138,23 +140,72 @@ A proportional error model was used to describe the observed data:
 \begin{eqnarray*}
 	y_{i,j,U} &=& f(\Phi, x_i, t_{i,j}) + f(\Phi, x_i, t_{i,j})\epsilon_{i,j}\\
 	~\\
-	y_{i,j,T} &=& g(\Phi, x_i, t_{i,j}) + f(\Phi, x_i, t_{i,j})\epsilon_{i,j} 
+	y_{i,j,T} &=& g(\Phi, x_i, t_{i,j}) + f(\Phi, x_i, t_{i,j})\epsilon_{i,j}
 \end{eqnarray*}
 
-Where $y$ presents the observed concentration for the $i^{th}$ concentration and $j^{th}$subject; $\epsilon$ is a multivariate random variable  with mean vector of zeros and variance matrix of $\Sigma$.\par 
+Where $y$ presents the observed concentration for the $i^{th}$ concentration and $j^{th}$subject; $\epsilon$ is a multivariate random variable  with mean vector of zeros and variance matrix of $\Sigma$.\par
 A “warm-up” estimation step was done using stochastic approximation expectation-maximization (SAEM) algorithm to evaluate a possible value for prior distribution. The results from SAEM were used as uninformative prior distribution to allow more relaxed Bayesian estimation.\par
 Generally, Monte-Carlo Markov chains (MCMC) samples in Bayesian analysis
 can be highly correlated, therefore, three independent sets of initial values were
 generated using MCMC sampled from the prior distribution. For each chain
 Bayesian estimation with interaction was conducted with 6000 samples in a
-burn-in phase and 8000 samples for sampling phase.
+burn-in phase and 8000 samples for sampling phase.\par
+This current analysis was carried out using Minnesota Supercomputer Institute resources. NONMEM 7.5 was used in model estimation and Python 3.8 for postprocessing (Data visualization).
+
 \end{block}
 \end{column}
 \separatorcolumn
 \begin{column}{\colwidth}
+  \begin{block}{\textbf{RESULTS}}
+\begin{table}
+  \label{tab:1}
+  \caption{Final parameter estimates for unbound R/S  methadone model}
+  \centering
+  \begin{tabularx}{0.7\colwidth}{c  c  c  c}
+    \toprule
+    \textbf{Parameter} & \textbf{Units} & \textbf{Estimate} & \textbf{95\% CI}\\
+    \hline
+    \multicolumn{4}{c}{{\color{maroon}{\textbf{R-methadone}}}}\\
+    \hline\hline
+    $CL_u$ & (L/hr/70kg) & 383.2 & (317.3 - 466.3) \\
+    \hline
+  \end{tabularx}
+\end{table}
 
+    \begin{table}[]
+      \label{tab:2}
+      \caption{Correlation matrix of the random effects (Lower triangle); The upper table provides the full variance- covariance matrix expressed as BSV correlations; The lower panel present residual unexplained correlations (SIGMA). Correlation of interest are color coded (maroon: within the same enantiomer, gold: with different enantiomer)}
+      \centering
+    \begin{tabularx}{0.7\colwidth}{@{}lllllll@{}}
+                                            & $\omega_{CL_u, R}$ & $\omega_{V_u, R}$ & $\omega_{F_u, R}$ & $\omega_{CL_u, S}$ & $\omega_{V_u, S}$ & $\omega_{F_u, S}$ \\ \cmidrule(l){2-7}
+    \multicolumn{1}{l|}{$\omega_{CL_u, R}$} & 1.0                &                   &                   &                    &                   &                   \\
+    \multicolumn{1}{l|}{$\omega_{V_u, R}$}  & 0.69               & 1.0               &                   &                    &                   &                   \\
+    \multicolumn{1}{l|}{$\omega_{F_u, R}$}  & -0.67              & -0.72             & 1.0               &                    &                   &                   \\
+    \multicolumn{1}{l|}{$\omega_{CL_u, S}$} & 0.74               & 0.87              & -0.64             & 1.0                &                   &                   \\
+    \multicolumn{1}{l|}{$\omega_{V_u, S}$}  & 0.72               & 0.82              & -0.67             & 0.70               & 1.0               &                   \\
+    \multicolumn{1}{l|}{$\omega_{F_u, S}$}  & -0.65              & -0.71             & -0.98             & -0.65              & -0.66             & 1.0
+  \end{tabularx}
+    \end{table}
+\end{block}
 \end{column}
-\end{columns} 
+
+\end{columns}
+\begin{columns}[t]
+\begin{column}{0.9\paperwidth}
+    \begin{alertblock}{CONCLUSION}
+
+\begin{itemize}
+    \item[1] Patients with HIV+ tend to have a significantly lower protein binding fractions of both unbound R/S methadone compared to HIV- patients. This means that when comparing total concentrations, active drug exposure ($C_u$) will be higher than expected in HIV+ patients compared to HIV- patients.
+    \item[2] The apparent bioavailability ($F$) is decreased in HIV+ patients. These results are not unexpected as there are known pathophysiological changes in the gut with HIV infection. A decrease in drug absorption suggest higher doses might be needed in HIV+ patients.
+    \item[3] A high correlation was noticed between S- and R-methadone for both the total and unbound concentrations. While it is expected to be high, it has not been previously quantified.
+    \item[4] Taking either efavirenz or nevirapine increased unbound R-methadone CL/F 220\%
+    \item[5] Nevirapine and efavirenz increased unbound S-methadone CL/F by 404\% and 273\%, respectively.
+    \item[6] Variants in NR1I3 increased unbound R- and S-methadone CL/F by approximately 20\% only in patients taking efavirenz.
+\end{itemize}
+
+    \end{alertblock}
+\end{column}
+\end{columns}
 \end{frame}
 
 \end{document}
