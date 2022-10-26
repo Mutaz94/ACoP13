@@ -53,7 +53,7 @@
 % ====================
 
 \footercontent{
-  \href{https://www.example.com}{https://www.umn.edu/\~jaber038} \hfill
+  \href{https://www.example.com}{https://mutaz94.github.io} \hfill
   ACoP13 Conference 2022, Colorado --- STPM506 \hfill
   \href{mailto:a.kalay@example.com}{Mutaz Jaber, jaber038@umn.edu}}
 % (can be left out to remove footer)
@@ -92,7 +92,7 @@
 An assumption that clinical data are recorded without any error is optimistically made. While some study personnel will record the actual times when there is a deviation others record the nominal time. In the current modeling and simulation work we:
 \begin{itemize}
 \item[I] Investigate an approach that includes error correction factor on recorded time and quantitate the bias in estimated parameters.
-\item[II] Determine the maximal deviation between observed and recorded times that does not cause significant bias.
+\item[II] Determine the maximal deviation between actual and recorded times that does not cause significant bias.
 \item[III] Compare the performance of first-order conditional (FOCE) and stochastic expectation-maximization (SAEM) algorithms in handling data with erroneous recorded times.
 \end{itemize}
 We conclude that:
@@ -142,7 +142,7 @@ A 500 mg single dose study with 500 in-silico subjects was simulated under a two
       \caption{Pharmacokinetic parameter values with corresponding between-subject variability reported as coefficient of variation. }
     \end{table}
 Three sample collection designs were examined; (a) Intense design (I) with 8 samples: 0.5, 1, 2, 4, 8, 12, 24, 48 hours post dose, (b) sparse design (S) with 4 samples: 0.5, 2, 24, 48 hours post dose and (c) mixed design (M) with 33\% of subjects having 8 samples as in I, 33\%  of subjects having 6 samples (0.5, 2, 4, 12, 24, 48), and 33\% of subjects having 4 samples as in S.\par
-Two models were created: the null model (Eq \ref{eq:1}; $M_0$), and the kappa model, (Eq \ref{eq:three};  $M_\kappa$), respectively. The model was built with `PRED` subroutine to allow the implementation of kappa model, $M_\kappa$. Parameters were estimated using first-order conditional estimation (FOCE) with interaction between $\eta$ and $\epsilon$ since a proportional error model is used.\par
+Two models were created: the null model (Eq \ref{eq:1}; $M_0$), and the kappa model, (Eq \ref{eq:three};  $M_\kappa$), respectively. The model was built with `PRED` subroutine to allow the implementation of kappa model, $M_\kappa$. Parameters were estimated using first-order conditional estimation (FOCE) with interaction between $\eta$ and $\epsilon$.\par
 In part two, simulations were perturbed with a standard deviation of 10 minutes  in time, followed by creating a new column in the dataset presenting the time used in the estimation process as shown in equation (Eq \ref{eq:for}; $t^*$). The difference, $\delta$, was selected to be 5, 10, 15, or 30 minutes. In fitting the model to the data, $t^*$ was used as the independent variable time with $M_0$.\par
 In part three of this study we re-used data generated from the previous section (part II) and repeating the analysis with SAEM algorithms including interaction term. The AUTO=1 criteria was used to select the most suitable convergence test in SAEM, and importance sampling was used to evaluate the likelihood function.
 
@@ -157,12 +157,12 @@ In part three of this study we re-used data generated from the previous section 
 \begin{figure}
 \centering
 \includegraphics[width=55cm]{Figure1A}
-\caption{Comparison of the relative bias for the null model $M_0$ and kappa model $M_K$ stratified on study design}
+\caption{Comparison of the relative bias for the null model $M_0$ and kappa model $M_K$ stratified on sample collection design}
 \end{figure}
 \begin{figure}
 \centering
 \includegraphics[width=55cm]{Figure3A.eps}
-\caption{The magnitude difference $\delta$ between the true time and recorded time. }
+\caption{The magnitude difference $\delta$ between the actual time and recorded time.}
 \end{figure}
 \begin{figure}
 \centering
